@@ -4,11 +4,15 @@ import MyDocument from './components/MyDocument'
 import DefaultTemplate from './components/DefaultTemplate'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 
 const useStyles = makeStyles(theme => ({
+  wrapper: {
+    padding: theme.spacing(2),
+  },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
@@ -20,29 +24,29 @@ const useStyles = makeStyles(theme => ({
 
 const Content = ({children}) => {
   return (
-    <Grid conatiner spacing={1}>
-      <Grid item xs={4}>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
         <PDFViewer>
           {children}
         </PDFViewer>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={12}>
         <PDFDownloadLink
           document={children}
           fileName="default-PDF"
         >
-          Download PDF
-                  </PDFDownloadLink>
+          <Button variant="contained" color="primary">Download PDF</Button>
+        </PDFDownloadLink>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={12}>
         <BlobProvider
           document={children}
           children={({ url, error }) => (
-            <a href={url} target="_blank">Open In New Tab</a>
+            <Button variant="contained" color="primary" href={url} target="_blank">Open In New Tab</Button>
           )}
         />
       </Grid>
-      </Grid>
+    </Grid>
   )
 }
 
@@ -54,37 +58,37 @@ function App() {
   };
   return (
     <div className="App">
-      <Grid conatainer>
-        <Grid xs={12}>
-          <FormControl variant="filled" className={classes.formControl}>
-            <InputLabel htmlFor="filled-age-native-simple">Template</InputLabel>
-            <Select
-              native
-              value={state}
-              onChange={handleChange()}
-            >
-              <option value={'Default'}>Default</option>
-              <option value={'TMG'}>TMG</option>
-            </Select>
-          </FormControl>
+      <div className={classes.wrapper}>
+        <Grid conatainer>
+          <Grid xs={12}>
+            <FormControl className={classes.formControl}>
+              <InputLabel>Template</InputLabel>
+              <Select
+                native
+                value={state}
+                onChange={handleChange()}
+              >
+                <option value={'Default'}>Default</option>
+                <option value={'TMG'}>TMG</option>
+              </Select>
+            </FormControl>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          {state === 'Default' && (
-            <>
-              <Content>
-                <DefaultTemplate />
-              </Content>
-            </>
-          )}
-          {state === 'TMG' && (
-            <>
-              <Content>
-                <MyDocument destinations={['Hong Kong', 'London', 'New York']} />
-              </Content>
-            </>
-          )}
-        </Grid>
-      </Grid>
+        {state === 'Default' && (
+          <>
+            <Content>
+              <DefaultTemplate />
+            </Content>
+          </>
+        )}
+        {state === 'TMG' && (
+          <>
+            <Content>
+              <MyDocument destinations={['Hong Kong', 'London', 'New York']} />
+            </Content>
+          </>
+        )}
+      </div>
     </div>
   );
 }
