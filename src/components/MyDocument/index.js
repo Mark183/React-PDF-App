@@ -79,7 +79,6 @@ const DestinationRow = ({ destination }) => (
 
 // Create Document Component
 const MyDocument = ({destinations}) => {
-  console.log(BathtubIcon)
   return(
     <Document style={styles.doc}>
       <Page size="A4" style={styles.page} wrap>
